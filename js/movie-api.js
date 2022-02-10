@@ -12,8 +12,8 @@ let request = fetch("https://ajar-energetic-louse.glitch.me/movies")
             console.log(resObj)
             resObj.forEach(element => {
                 movies.append(`
-                <div class="">
-                <div class="card" style="width: 18rem;">
+                <div class="col-4 mb-3">
+                <div class="card style="width: 18rem;">
                     <div class="card-body">
                         <h2 class="card-title">${element.title} - (${element.year})</h2>
                         <h4 class="card-text">Rating: ${element.rating} Stars</h4>
@@ -42,19 +42,15 @@ function addMovie (movieForm){
     return movieForm;
 }
 
-$("#submit").click( function (request){
+$("#submit").click(function (event){
+    event.preventDefault();
     let movieForm = {
-        id: (request.length +1),
         title: $("#title").val(),
         rating: $("#rating").val(),
         year: $("#year").val(),
         director:$("#director").val(),
         plot: $("#plot").val()
     }
-    console.log(movieForm.id)
     addMovie(movieForm);
 });
-$("#test").click(function (e){
-    e.preventDefault();
-    console.log($("#title").val());
-})
+
