@@ -11,10 +11,37 @@
 </head>
 <body>
 <div class="container d-flex ">
-<div id="movies flex">
+<div id="movies">
 
 </div>
+    <form>
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" id="title"  aria-describedby="emailHelp">
+        </div>
+        <div class="form-group">
+            <label for="rating">Rating</label>
+            <input type="text" class="form-control" id="rating">
+        </div>
+        <div class="form-group">
+            <label for="year">Year</label>
+            <input type="text" class="form-control" id="year">
+        </div>
+        <div class="form-group">
+            <label for="director">Director</label>
+            <input type="text" class="form-control" id="director">
+        </div>
+        <div class="form-group">
+            <label for="plot">Plot</label>
+            <textarea class="form-control" id="plot"></textarea>
+        </div>
+
+
+        <button id ="submit" class="btn btn-primary">Submit</button>
+        <button id = "test">test</button>
+    </form>
 </div>
+
 <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 <script src="../js/movie-api.js"></script>
 </body>

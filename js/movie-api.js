@@ -6,12 +6,12 @@
 
 // alert("Loading....");
 let movies = $("#movies");
-fetch("https://ajar-energetic-louse.glitch.me/movies")
+let request = fetch("https://ajar-energetic-louse.glitch.me/movies")
     .then(res => res.json())
     .then(resObj => {
-        console.log(resObj)
-        resObj.forEach(element =>  {
-            movies.append(`
+            console.log(resObj)
+            resObj.forEach(element => {
+                movies.append(`
                 <div class="">
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
@@ -23,6 +23,38 @@ fetch("https://ajar-energetic-louse.glitch.me/movies")
                 </div>       
                 </div>        
             `)
-        })}
+            })
+        }
     );
 
+function addMovie (movieForm){
+    let url = "https://ajar-energetic-louse.glitch.me/movies";
+    let options = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(movieForm),
+    };
+    fetch(url,options)
+        .then(res => console.log(res))
+        .catch(error => console.log(error))
+    return movieForm;
+}
+
+$("#submit").click( function (request){
+    let movieForm = {
+        id: (request.length +1),
+        title: $("#title").val(),
+        rating: $("#rating").val(),
+        year: $("#year").val(),
+        director:$("#director").val(),
+        plot: $("#plot").val()
+    }
+    console.log(movieForm.id)
+    addMovie(movieForm);
+});
+$("#test").click(function (e){
+    e.preventDefault();
+    console.log($("#title").val());
+})
