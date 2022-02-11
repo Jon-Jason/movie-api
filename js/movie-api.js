@@ -8,7 +8,6 @@ $(document).ready(function () {
     fetch("https://ajar-energetic-louse.glitch.me/movies")
         .then(res => res.json())
         .then(resObj => {
-            //
             console.log(resObj)
             resObj.forEach(element => {
                 movies.append(`
@@ -20,27 +19,26 @@ $(document).ready(function () {
                                 <h4 class="card-text">Rating: ${element.rating} Stars</h4>
                                 <h5>Director: ${element.director}</h5>
                                 <p class="card-text">plot: ${element.plot}</p>
-                                <button type="button" class="btn btn-success" id="edit" data-value="${element.id}"  data-target="#editForm">Edit</button>
+                                <button type="button" class="btn btn-success edit" id="edit" data-value="${element.id}" data-toggle="modal" data-target="#editForm">Edit</button>
                                 <button>Delete</button>
                             </div>
                         </div>       
                     </div>`
                 )
             })
-
+            return resObj;
 
         })
 
         .then(editObj => {
-
-            $("#edit").click(function (e) {
+            console.log(editObj);
+            // console.log($('.edit'));
+            $(".edit").click(function (e) {
                 e.preventDefault();
                 console.log($(this).attr("data-value"));
                 let id = $(this).attr("data-value");
-
-                editObj.append(`
-                <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editForm" aria-hidden="true" id="editForm">
-                    <div class="modal-dialog-centered modal-dialog" role="document">
+                let modal = `<div class="modal fade" id="editForm" tabindex="-1" role="dialog" aria-labelledby="editFormLabel" aria-hidden="true">
+                    <div class="modal-dialog-centered modal-dialog" role="dialog">
                         <div class="modal-content p-4">
                             <form>
                                 <h1 class="text-center">Edit a movie</h1>
@@ -64,40 +62,62 @@ $(document).ready(function () {
                                     <label for="editPlot">Plot</label>
                                     <textarea class="form-control" id="editPlot"></textarea>
                                 </div>
-                                <button id ="editSubmit" class="btn btn-primary">Submit</button>
+                                <button id ="editSubmit" class="btn btn-primary" data-value="${id}">Submit</button>
+                                <button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Close</button>
                             </form>
                         </div>
                     </div>
-                </div>`)
+                </div>`;
+                $('#modalForm').append(modal);
+                $("#editSubmit").click(function (e) {
+                    e.preventDefault()
+                    // let id = ID;
+                    // console.log(id);
+                    fetch(`https://ajar-energetic-louse.glitch.me/movies/${id}`, {
+                        method: 'PUT',
+                        body: JSON.stringify({
+                            id: id,
+                            title: $("#editTitle").val(),
+                            rating: $("#editRating").val(),
+                            year: $("#editYear").val(),
+                            director: $("#editDirector").val(),
+                            plot: $("#editPlot").val(),
 
-                    // $(".container").append(editForm);
-
-
-                    $("#editSubmit").click(function (e) {
-                        e.preventDefault()
-                        let id = $(this).attr("data-value");
-                        console.log(id);
-                        fetch(`https://ajar-energetic-louse.glitch.me/movies/${element.id}`, {
-                            method: 'PUT',
-                            body: JSON.stringify({
-                                id: element.id,
-                                title: $("#editTitle").val(),
-                                rating: $("#editRating").val(),
-                                year: $("#editYear").val(),
-                                director: $("#editDirector").val(),
-                                plot: $("#editPlot").val(),
-
-                            }),
-                            headers: {
-                                'Content-type': 'application/json; charset=UTF-8',
-                            },
-                        })
-                            .then((response) => response.json())
-                            .then((json) => console.log(json));
+                        }),
+                        headers: {
+                            'Content-type': 'application/json; charset=UTF-8',
+                        },
                     })
+                        .then((response) => response.json())
+                        .then((json) => console.log(json));
                 })
-            }
-        )
+            })
+        })
+        .then(ID => {
+
+            // $("#editSubmit").click(function (e) {
+            //     e.preventDefault()
+            //     let id = ID;
+            //     console.log(id);
+            //     fetch(`https://ajar-energetic-louse.glitch.me/movies/${element.id}`, {
+            //         method: 'PUT',
+            //         body: JSON.stringify({
+            //             id: element.id,
+            //             title: $("#editTitle").val(),
+            //             rating: $("#editRating").val(),
+            //             year: $("#editYear").val(),
+            //             director: $("#editDirector").val(),
+            //             plot: $("#editPlot").val(),
+            //
+            //         }),
+            //         headers: {
+            //             'Content-type': 'application/json; charset=UTF-8',
+            //         },
+            //     })
+            //         .then((response) => response.json())
+            //         .then((json) => console.log(json));
+            // })
+        })
 
 
     function addMovie(movieForm) {
