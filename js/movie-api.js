@@ -5,7 +5,7 @@ setTimeout(() => {
 $("#loader").toggleClass('loader');
 $(".container").toggleClass("hide");
 $("#loadingText").toggleClass("hide");
-},3000)
+},1000)
 
     function renderMovies(id, title, year, rating, director, plot) {
         let movies = $("#movies");
@@ -42,7 +42,7 @@ $("#loadingText").toggleClass("hide");
         .then(editObj => {
             $(".edit").click(function (e) {
                 e.preventDefault();
-                let id = $(this).attr("data-value");
+                let ID = $(this).attr("data-value");
                 let modal = `<div class="modal fade" id="editForm" tabindex="-1" role="dialog" aria-labelledby="editFormLabel" aria-hidden="true">
                     <div class="modal-dialog-centered modal-dialog" role="dialog">
                         <div class="modal-content p-4">
@@ -68,28 +68,20 @@ $("#loadingText").toggleClass("hide");
                                     <label for="editPlot">Plot</label>
                                     <textarea class="form-control" id="editPlot"></textarea>
                                 </div>
-                                <button id ="editSubmit" class="btn btn-primary" data-value="${id}">Submit</button>
-                                <button type="button" class="btn btn-secondary float-right "data-dismiss="modal">Close</button>
+                                <button id="editSubmit" class="btn btn-primary" data-value="${ID}">Submit</button>
+                                <button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Cancel</button>
                             </form>
                         </div>
                     </div>
                 </div>`;
                 $('#modalForm').append(modal);
-                // $(".delete").click(function () {
-                //     fetch(`https://ajar-energetic-louse.glitch.me/movies/${id}`, {
-                //         method: 'DELETE'
-                //     })
-                //         .then(() => {
-                //             $("#movies > *").remove();
-                //             getData();
-                //         });
-                // })
                 $("#editSubmit").click(function (e) {
                     e.preventDefault()
-                    fetch(`https://ajar-energetic-louse.glitch.me/movies/${id}`, {
+                    $("#editSubmit").attr('data-dismiss','modal');
+                    fetch(`https://ajar-energetic-louse.glitch.me/movies/${ID}`, {
                         method: 'PUT',
                         body: JSON.stringify({
-                            id: id,
+                            id: ID,
                             title: $("#editTitle").val(),
                             rating: $("#editRating").val(),
                             year: $("#editYear").val(),
@@ -161,6 +153,7 @@ $("#loadingText").toggleClass("hide");
                         })
                         return resObj;
                     })
+                location.reload();
             }
 
         });
