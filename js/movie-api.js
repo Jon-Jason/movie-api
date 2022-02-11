@@ -25,7 +25,6 @@ $(document).ready(function () {
     fetch("https://ajar-energetic-louse.glitch.me/movies")
         .then(res => res.json())
         .then(resObj => {
-            console.log(resObj)
             resObj.forEach(element => {
                 renderMovies(element.id, element.title, element.year, element.rating, element.director, element.plot);
 
@@ -35,11 +34,8 @@ $(document).ready(function () {
         })
 
         .then(editObj => {
-            console.log(editObj);
-            // console.log($('.edit'));
             $(".edit").click(function (e) {
                 e.preventDefault();
-                console.log($(this).attr("data-value"));
                 let id = $(this).attr("data-value");
                 let modal = `<div class="modal fade" id="editForm" tabindex="-1" role="dialog" aria-labelledby="editFormLabel" aria-hidden="true">
                     <div class="modal-dialog-centered modal-dialog" role="dialog">
@@ -92,7 +88,8 @@ $(document).ready(function () {
 
                     })
                         .then(json => {
-                            console.log(json);
+                            $("#movies > *").remove();
+                            getData();
                         })
                 })
             })
@@ -107,7 +104,10 @@ $(document).ready(function () {
                     body: JSON.stringify(movieForm),
                 };
                 fetch(url, options)
-                    .then(res => console.log(res))
+                    .then(res => {
+                        $("#movies > *").remove();
+                        getData();
+                    })
                     .catch(error => console.log(error))
                 return movieForm;
             }
@@ -123,6 +123,17 @@ $(document).ready(function () {
                 }
                 addMovie(movieForm);
             });
+
+            function getData() {
+                fetch("https://ajar-energetic-louse.glitch.me/movies")
+                    .then(res => res.json())
+                    .then(resObj => {
+                        resObj.forEach(element => {
+                            renderMovies(element.id, element.title, element.year, element.rating, element.director, element.plot);
+                        })
+                        return resObj;
+                    })
+            }
 
         });
 });
