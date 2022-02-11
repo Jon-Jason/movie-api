@@ -28,21 +28,7 @@ $(document).ready(function () {
             console.log(resObj)
             resObj.forEach(element => {
                 renderMovies(element.id, element.title, element.year, element.rating, element.director, element.plot);
-                // movies.append(`
-                //     <div class="col-4 mb-3">
-                //         <div class="card style="width: 18rem;">
-                //             <div class="card-body"">
-                //                 <p class="id hide">${element.id}</p>
-                //                 <h2 class="card-title">${element.title} - (${element.year})</h2>
-                //                 <h4 class="card-text">Rating: ${element.rating} Stars</h4>
-                //                 <h5>Director: ${element.director}</h5>
-                //                 <p class="card-text">plot: ${element.plot}</p>
-                //                 <button type="button" class="btn btn-success edit" id="edit" data-value="${element.id}" data-toggle="modal" data-target="#editForm">Edit</button>
-                //                 <button>Delete</button>
-                //             </div>
-                //         </div>
-                //     </div>`
-                // )
+
             })
             return resObj;
 
@@ -89,8 +75,6 @@ $(document).ready(function () {
                 $('#modalForm').append(modal);
                 $("#editSubmit").click(function (e) {
                     e.preventDefault()
-                    // let id = ID;
-                    // console.log(id);
                     fetch(`https://ajar-energetic-louse.glitch.me/movies/${id}`, {
                         method: 'PUT',
                         body: JSON.stringify({
@@ -107,17 +91,11 @@ $(document).ready(function () {
                         },
 
                     })
-
-                        .then((response) => response.json())
-                        .then((json) => {
-                            $("#movies > *").remove();
-                            json.forEach(element => {
-                                renderMovies(element.id, element.title, element.year, element.rating, element.director, element.plot);
-                            });
+                        .then(json => {
+                            console.log(json);
                         })
                 })
             })
-
 
             function addMovie(movieForm) {
                 let url = "https://ajar-energetic-louse.glitch.me/movies";
