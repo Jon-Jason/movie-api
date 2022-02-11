@@ -1,30 +1,48 @@
 "use strict";
 
 $(document).ready(function () {
-
+    function renderMovies(id, title, year, rating, director, plot) {
+        let movies = $("#movies");
+        movies.append(`
+                    <div class="col-4 mb-3">
+                        <div class="card style="width: 18rem;">
+                            <div class="card-body"">
+                                <p class="id hide">${id}</p>
+                                <h2 class="card-title">${title} - (${year})</h2>
+                                <h4 class="card-text">Rating: ${rating} Stars</h4>
+                                <h5>Director: ${director}</h5>
+                                <p class="card-text">plot: ${plot}</p>
+                                <button type="button" class="btn btn-success edit" id="edit" data-value="${id}" data-toggle="modal" data-target="#editForm">Edit</button>
+                                <button>Delete</button>
+                            </div>
+                        </div>       
+                    </div>`
+        )
+    }
 
 // alert("Loading....");
-    let movies = $("#movies");
+
     fetch("https://ajar-energetic-louse.glitch.me/movies")
         .then(res => res.json())
         .then(resObj => {
             console.log(resObj)
             resObj.forEach(element => {
-                movies.append(`
-                    <div class="col-4 mb-3">
-                        <div class="card style="width: 18rem;">
-                            <div class="card-body"">
-                                <p class="id hide">${element.id}</p>
-                                <h2 class="card-title">${element.title} - (${element.year})</h2>
-                                <h4 class="card-text">Rating: ${element.rating} Stars</h4>
-                                <h5>Director: ${element.director}</h5>
-                                <p class="card-text">plot: ${element.plot}</p>
-                                <button type="button" class="btn btn-success edit" id="edit" data-value="${element.id}" data-toggle="modal" data-target="#editForm">Edit</button>
-                                <button>Delete</button>
-                            </div>
-                        </div>       
-                    </div>`
-                )
+                renderMovies(element.id, element.title, element.year, element.rating, element.director, element.plot);
+                // movies.append(`
+                //     <div class="col-4 mb-3">
+                //         <div class="card style="width: 18rem;">
+                //             <div class="card-body"">
+                //                 <p class="id hide">${element.id}</p>
+                //                 <h2 class="card-title">${element.title} - (${element.year})</h2>
+                //                 <h4 class="card-text">Rating: ${element.rating} Stars</h4>
+                //                 <h5>Director: ${element.director}</h5>
+                //                 <p class="card-text">plot: ${element.plot}</p>
+                //                 <button type="button" class="btn btn-success edit" id="edit" data-value="${element.id}" data-toggle="modal" data-target="#editForm">Edit</button>
+                //                 <button>Delete</button>
+                //             </div>
+                //         </div>
+                //     </div>`
+                // )
             })
             return resObj;
 
@@ -87,64 +105,46 @@ $(document).ready(function () {
                         headers: {
                             'Content-type': 'application/json; charset=UTF-8',
                         },
+
                     })
+
                         .then((response) => response.json())
-                        .then((json) => console.log(json));
+                        .then((json) => {
+                            $("#movies > *").remove();
+                            json.forEach(element => {
+                                renderMovies(element.id, element.title, element.year, element.rating, element.director, element.plot);
+                            });
+                        })
                 })
             })
-        })
-        .then(ID => {
-
-            // $("#editSubmit").click(function (e) {
-            //     e.preventDefault()
-            //     let id = ID;
-            //     console.log(id);
-            //     fetch(`https://ajar-energetic-louse.glitch.me/movies/${element.id}`, {
-            //         method: 'PUT',
-            //         body: JSON.stringify({
-            //             id: element.id,
-            //             title: $("#editTitle").val(),
-            //             rating: $("#editRating").val(),
-            //             year: $("#editYear").val(),
-            //             director: $("#editDirector").val(),
-            //             plot: $("#editPlot").val(),
-            //
-            //         }),
-            //         headers: {
-            //             'Content-type': 'application/json; charset=UTF-8',
-            //         },
-            //     })
-            //         .then((response) => response.json())
-            //         .then((json) => console.log(json));
-            // })
-        })
 
 
-    function addMovie(movieForm) {
-        let url = "https://ajar-energetic-louse.glitch.me/movies";
-        let options = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(movieForm),
-        };
-        fetch(url, options)
-            .then(res => console.log(res))
-            .catch(error => console.log(error))
-        return movieForm;
-    }
+            function addMovie(movieForm) {
+                let url = "https://ajar-energetic-louse.glitch.me/movies";
+                let options = {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(movieForm),
+                };
+                fetch(url, options)
+                    .then(res => console.log(res))
+                    .catch(error => console.log(error))
+                return movieForm;
+            }
 
-    $("#submit").click(function (event) {
-        event.preventDefault();
-        let movieForm = {
-            title: $("#title").val(),
-            rating: $("#rating").val(),
-            year: $("#year").val(),
-            director: $("#director").val(),
-            plot: $("#plot").val()
-        }
-        addMovie(movieForm);
-    });
+            $("#submit").click(function (event) {
+                event.preventDefault();
+                let movieForm = {
+                    title: $("#title").val(),
+                    rating: $("#rating").val(),
+                    year: $("#year").val(),
+                    director: $("#director").val(),
+                    plot: $("#plot").val()
+                }
+                addMovie(movieForm);
+            });
 
+        });
 });
