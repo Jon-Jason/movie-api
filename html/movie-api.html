@@ -8,14 +8,38 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
     <title>Document</title>
     <style>
+        .loader {
+            border: 16px solid #f3f3f3; /* Light grey */
+            border-top: 16px solid #3498db; /* Blue */
+            border-radius: 50%;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         .hide {
             display: none;
+        }
+        #loader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 500px;
+            height: 500px;
+            margin-top: -250px; /* Half the height */
+            margin-left: -250px; /* Half the width */
         }
     </style>
 
 </head>
 <body class="bg-secondary">
-    <div class="container">
+<div id="loader"  class="loader"></div>
+<div id="loadingText" class="text-center">LOADING...</div>
+
+    <div class="container hide">
     <div id="movies" class="row"></div>
     <div id="modalForm"></div>
 

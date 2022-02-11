@@ -1,6 +1,12 @@
 "use strict";
 
 $(document).ready(function () {
+setTimeout(() => {
+$("#loader").toggleClass('loader');
+$(".container").toggleClass("hide");
+$("#loadingText").toggleClass("hide");
+},3000)
+
     function renderMovies(id, title, year, rating, director, plot) {
         let movies = $("#movies");
         movies.append(`
@@ -12,8 +18,8 @@ $(document).ready(function () {
                                 <h4 class="card-text">Rating: ${rating} Stars</h4>
                                 <h5>Director: ${director}</h5>
                                 <p class="card-text">plot: ${plot}</p>
-                                <button type="button" class="btn btn-success edit" id="edit" data-value="${id}" data-toggle="modal" data-target="#editForm">Edit</button>
-                                <button>Delete</button>
+                                <button type="button" class="btn btn-success edit"  data-value="${id}" data-toggle="modal" data-target="#editForm">Edit</button>
+                                <button type="button" class="btn btn-danger float-right delete"  data-value="${id}">Delete</button>
                             </div>
                         </div>       
                     </div>`
@@ -63,12 +69,21 @@ $(document).ready(function () {
                                     <textarea class="form-control" id="editPlot"></textarea>
                                 </div>
                                 <button id ="editSubmit" class="btn btn-primary" data-value="${id}">Submit</button>
-                                <button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-secondary float-right "data-dismiss="modal">Close</button>
                             </form>
                         </div>
                     </div>
                 </div>`;
                 $('#modalForm').append(modal);
+                // $(".delete").click(function () {
+                //     fetch(`https://ajar-energetic-louse.glitch.me/movies/${id}`, {
+                //         method: 'DELETE'
+                //     })
+                //         .then(() => {
+                //             $("#movies > *").remove();
+                //             getData();
+                //         });
+                // })
                 $("#editSubmit").click(function (e) {
                     e.preventDefault()
                     fetch(`https://ajar-energetic-louse.glitch.me/movies/${id}`, {
@@ -92,6 +107,7 @@ $(document).ready(function () {
                             getData();
                         })
                 })
+
             })
 
             function addMovie(movieForm) {
@@ -123,6 +139,18 @@ $(document).ready(function () {
                 }
                 addMovie(movieForm);
             });
+
+            $(".delete").click(function (e) {
+                e.preventDefault();
+                console.log($(this).attr("data-value"));
+                let id = $(this).attr("data-value")
+                fetch(`https://ajar-energetic-louse.glitch.me/movies/${id}`, {
+                    method: 'DELETE'
+                })
+                    .then(()=>{
+                    location.reload();
+                })
+            })
 
             function getData() {
                 fetch("https://ajar-energetic-louse.glitch.me/movies")
