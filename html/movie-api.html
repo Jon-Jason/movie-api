@@ -38,20 +38,32 @@
             margin-top: -250px; /* Half the height */
             margin-left: -250px; /* Half the width */
         }
+        .card{
+            /*width: 350px;*/
+            height: 400px;
+            color: white;
+            background-color: #3D3D3D;
+        }
+        body{
+            background-image: url("../assets/movieBackground.jpeg");
+        }
     </style>
 
 </head>
-<body class="bg-secondary">
+<body class="bg-">
 <div id="loader" class="loader"></div>
 <div id="loadingText" class="text-center">LOADING...</div>
 
 <div class="container hide">
     <div id="movies" class="row"></div>
     <div id="modalForm"></div>
-    <button id="addMovie" type="button" class="btn btn-primary" data-toggle="modal" data-target="#addMovieModal">Add Movie</button>
-
+    <div class="text-center">
+        <button id="addMovie" type="button" class="btn btn-dark w-75 my-3" data-toggle="modal"
+                data-target="#addMovieModal">Add Movie
+        </button>
+    </div>
     <div class="modal fade" id="addMovieModal" tabindex="-1" role="dialog" aria-labelledby="addMovieLabel"
-         aria-hidden="true" >
+         aria-hidden="true">
         <div class="modal-dialog-centered modal-dialog" role="dialog">
             <div class="modal-content p-4">
                 <form>
@@ -76,7 +88,9 @@
                         <label for="plot">Plot</label>
                         <textarea class="form-control" id="plot"></textarea>
                     </div>
-                    <button class="submit" id="Submit">Submit</button>
+                    <div class="text-center">
+                    <button class="btn-primary w-50" id="Submit">Submit</button>
+                    </div>
                 </form>
             </div>
         </div>

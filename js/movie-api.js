@@ -11,17 +11,19 @@ $("#loadingText").toggleClass("hide");
     function renderMovies(id, title, year, rating, director, plot) {
         let movies = $("#movies");
         movies.append(`
-                    <div class="col-4 mb-3">
-                        <div class="card style="width: 18rem;">
-                            <div class="card-body"">
+                    <div class="col-12 col-md-4 mb-3">
+                        <div class="card">
+                            <div class="card-body">
                                 <p class="id hide">${id}</p>
                                 <h2 class="card-title">${title} - (${year})</h2>
-                                <h4 class="card-text">Rating: ${rating} Stars</h4>
+                                <h4 class="card-text">Rating: ${rating}/10 Stars</h4>
                                 <h5>Director: ${director}</h5>
-                                <p class="card-text">plot: ${plot}</p>
-                                <button type="button" class="btn btn-success edit"  data-value="${id}" data-toggle="modal" data-target="#editForm">Edit</button>
-                                <button type="button" class="btn btn-danger float-right delete"  data-value="${id}">Delete</button>
+                                
+                                <p class="overflow-auto h-50 ">${plot}</p>                                
                             </div>
+                            <div class="p-3">
+                            <button type="button" class="btn btn-success edit w-25"  data-value="${id}" data-toggle="modal" data-target="#editForm">Edit</button>
+                            <button type="button" class="btn btn-danger float-right delete w-25"  data-value="${id}">Delete</button>
                         </div>       
                     </div>`
         )
@@ -69,8 +71,8 @@ $("#loadingText").toggleClass("hide");
                                     <label for="editPlot">Plot</label>
                                     <textarea class="form-control" id="editPlot"></textarea>
                                 </div>
-                                <button id="editSubmit" class="btn btn-primary" data-value="${ID}">Submit</button>
-                                <button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                <button id="editSubmit" class="btn btn-primary float-right" data-value="${ID}">Submit</button>                                
                             </form>
                         </div>
                     </div>
