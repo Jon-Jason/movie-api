@@ -121,7 +121,7 @@ $("#loadingText").toggleClass("hide");
                 return movieForm;
             }
 
-            $("#submit").click(function (event) {
+            $("#Submit").click(function (event) {
                 event.preventDefault();
                 let movieForm = {
                     title: $("#title").val(),
@@ -149,9 +149,13 @@ $("#loadingText").toggleClass("hide");
                 fetch("https://ajar-energetic-louse.glitch.me/movies")
                     .then(res => res.json())
                     .then(resObj => {
+                        fetch('http://www.omdbapi.com/?apikey=9a0d823b&/?t=star+wars')
+                            .then(res => res.json())
+                            .then(response => console.log(response))
+                            .catch(error => console.log(error))
+
                         resObj.forEach(element => {
                             renderMovies(element.id, element.title, element.year, element.rating, element.director, element.plot);
-
                         })
                         return resObj;
                     })
@@ -160,10 +164,7 @@ $("#loadingText").toggleClass("hide");
 
         });
 
-    fetch('http://www.omdbapi.com/?apikey=9a0d823b&/?t=star+wars')
-        .then(res => res.json())
-        .then(response => console.log(response))
-        .catch(error => console.log(error))
+
 
     // fetch('http://img.omdbapi.com/?apikey=9a0d823b&')
     //     .then(response => console.log(response))
