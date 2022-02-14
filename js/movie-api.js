@@ -2,28 +2,29 @@
 
 $(document).ready(function () {
 
-setTimeout(() => {
-$("#loader").toggleClass('loader');
-$(".container").toggleClass("hide");
-$("#loadingText").toggleClass("hide");
-},1000)
+    setTimeout(() => {
+        $("#loader").toggleClass('loader');
+        $(".container").toggleClass("hide");
+        $("#loadingText").toggleClass("hide");
+    }, 1000)
 
     function renderMovies(id, title, year, rating, director, plot) {
         let movies = $("#movies");
         movies.append(`
-                    <div class="col-12 col-md-4 mb-3">
+                    <div class="col-12 col-md-6 col-lg-4 mb-3">
                         <div class="card">
                             <div class="card-body">
                                 <p class="id hide">${id}</p>
-                                <h2 class="card-title">${title} - (${year})</h2>
-                                <h4 class="card-text">Rating: ${rating}/10 Stars</h4>
+                                <h3 class="card-title limeLight">${title} - (${year})</h3>
+                                <h5 class="card-text">Rating: ${rating}/10 Stars</h5>
                                 <h5>Director: ${director}</h5>
                                 
                                 <p class="overflow-auto h-50 ">${plot}</p>                                
                             </div>
-                            <div class="p-3">
-                            <button type="button" class="btn btn-success edit w-25"  data-value="${id}" data-toggle="modal" data-target="#editForm">Edit</button>
-                            <button type="button" class="btn btn-danger float-right delete w-25"  data-value="${id}">Delete</button>
+                            <div class="p-3 ">
+                            <button type="button" class=" btn btn-success edit w-100"  data-value="${id}" data-toggle="modal" data-target="#editForm">Edit</button>
+                            <button type="button" class="col-12 btn btn-danger delete w-100 mt-2"  data-value="${id}">Delete</button>
+                            </div>                  
                         </div>       
                     </div>`
         )
@@ -50,6 +51,7 @@ $("#loadingText").toggleClass("hide");
                     <div class="modal-dialog-centered modal-dialog" role="dialog">
                         <div class="modal-content p-4">
                             <form>
+                            <button type="button" class="close text-light float-right" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 <h1 class="text-center">Edit a movie</h1>
                                 <div class="form-group mb-3">
                                     <label for="editTitle">Title</label>
@@ -80,7 +82,7 @@ $("#loadingText").toggleClass("hide");
                 $('#modalForm').append(modal);
                 $("#editSubmit").click(function (e) {
                     e.preventDefault()
-                    $("#editSubmit").attr('data-dismiss','modal');
+                    $("#editSubmit").attr('data-dismiss', 'modal');
                     fetch(`https://ajar-energetic-louse.glitch.me/movies/${ID}`, {
                         method: 'PUT',
                         body: JSON.stringify({
@@ -142,9 +144,9 @@ $("#loadingText").toggleClass("hide");
                 fetch(`https://ajar-energetic-louse.glitch.me/movies/${id}`, {
                     method: 'DELETE'
                 })
-                    .then(()=>{
-                    location.reload();
-                })
+                    .then(() => {
+                        location.reload();
+                    })
             })
 
             function getData() {
@@ -166,9 +168,19 @@ $("#loadingText").toggleClass("hide");
 
         });
 
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > 50) {
+            $('#back-to-top').fadeIn();
+        } else {
+            $('#back-to-top').fadeOut();
+        }
+    });
+    // scroll body to 0px on click
+    $('#back-to-top').click(function () {
+        $('body,html').animate({
+            scrollTop: 0
+        }, 400);
+        return false;
+    });
 
-
-    // fetch('http://img.omdbapi.com/?apikey=9a0d823b&')
-    //     .then(response => console.log(response))
-    //     .catch(error => console.log(error))
 });
