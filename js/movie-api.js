@@ -1,6 +1,7 @@
 "use strict";
 
 $(document).ready(function () {
+
 setTimeout(() => {
 $("#loader").toggleClass('loader');
 $(".container").toggleClass("hide");
@@ -150,6 +151,7 @@ $("#loadingText").toggleClass("hide");
                     .then(resObj => {
                         resObj.forEach(element => {
                             renderMovies(element.id, element.title, element.year, element.rating, element.director, element.plot);
+
                         })
                         return resObj;
                     })
@@ -157,4 +159,13 @@ $("#loadingText").toggleClass("hide");
             }
 
         });
+
+    fetch('http://www.omdbapi.com/?apikey=9a0d823b&/?t=star+wars')
+        .then(res => res.json())
+        .then(response => console.log(response))
+        .catch(error => console.log(error))
+
+    // fetch('http://img.omdbapi.com/?apikey=9a0d823b&')
+    //     .then(response => console.log(response))
+    //     .catch(error => console.log(error))
 });
