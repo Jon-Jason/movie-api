@@ -8,6 +8,18 @@ $(document).ready(function () {
         $("#loadingText").toggleClass("hide");
     }, 1000)
 
+    function getData() {
+        fetch("https://ajar-energetic-louse.glitch.me/movies")
+            .then(res => res.json())
+            .then(resObj => {
+                resObj.forEach(element => {
+                    renderMovies(element.id, element.title, element.year, element.rating, element.director, element.plot);
+                })
+                return resObj;
+            })
+        location.reload();
+    }
+
     function renderMovies(id, title, year, rating, director, plot) {
         let movies = $("#movies");
         movies.append(`
@@ -30,8 +42,6 @@ $(document).ready(function () {
         )
     }
 
-// alert("Loading....");
-
     fetch("https://ajar-energetic-louse.glitch.me/movies")
         .then(res => res.json())
         .then(resObj => {
@@ -42,7 +52,6 @@ $(document).ready(function () {
             return resObj;
 
         })
-
         .then(editObj => {
             $(".edit").click(function (e) {
                 e.preventDefault();
@@ -148,25 +157,8 @@ $(document).ready(function () {
                         location.reload();
                     })
             })
-
-            function getData() {
-                fetch("https://ajar-energetic-louse.glitch.me/movies")
-                    .then(res => res.json())
-                    .then(resObj => {
-                        fetch('http://www.omdbapi.com/?apikey=9a0d823b&/?t=star+wars')
-                            .then(res => res.json())
-                            .then(response => console.log(response))
-                            .catch(error => console.log(error))
-
-                        resObj.forEach(element => {
-                            renderMovies(element.id, element.title, element.year, element.rating, element.director, element.plot);
-                        })
-                        return resObj;
-                    })
-                location.reload();
-            }
-
         });
+
 
     $(window).scroll(function () {
         if ($(this).scrollTop() > 50) {
